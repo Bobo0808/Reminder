@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33516.290
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reminder", "Reminder\Reminder.csproj", "{06720F02-602B-4DDD-B856-00668364C61B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{06720F02-602B-4DDD-B856-00668364C61B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06720F02-602B-4DDD-B856-00668364C61B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06720F02-602B-4DDD-B856-00668364C61B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06720F02-602B-4DDD-B856-00668364C61B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B937818C-260A-49D7-B1AB-C69D7D9BC6B0}
+	EndGlobalSection
+EndGlobal
