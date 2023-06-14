@@ -7,7 +7,8 @@ namespace ReminderApp.Models
     {
         [Key]
         public int R_Id { get; set; }
-        [ForeignKey("User")]
+
+        
         public int U_Id { get; set; }
         
         public string Category { get; set; }
@@ -20,5 +21,7 @@ namespace ReminderApp.Models
         public DateTime Modified_time { get; set; }
 
         public bool Finish { get; set; }
+
+        public  User User { get; set; }
     }
 }

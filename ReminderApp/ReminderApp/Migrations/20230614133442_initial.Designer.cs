@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ReminderApp.Migrations;
+using ReminderApp.Data;
 
 #nullable disable
 
 namespace ReminderApp.Migrations
 {
     [DbContext(typeof(ReminderDbContext))]
-    [Migration("20230613180449_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230614133442_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,29 +51,27 @@ namespace ReminderApp.Migrations
                     b.Property<int>("U_Id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserU_Id")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("R_Id");
 
-                    b.HasIndex("U_Id");
+                    b.HasIndex("UserId");
 
-                    b.HasIndex("UserU_Id");
-
-                    b.ToTable("Reminders");
+                    b.ToTable("Reminder");
                 });
 
             modelBuilder.Entity("ReminderApp.Models.User", b =>
                 {
-                    b.Property<int>("U_Id")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("U_Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"), 1L, 1);
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -83,30 +81,25 @@ namespace ReminderApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("U_Id");
+                    b.HasKey("UserId");
 
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.ToTable("Users");
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("ReminderApp.Models.Reminder", b =>
                 {
-                    b.HasOne("ReminderApp.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("U_Id")
+                    b.HasOne("ReminderApp.Models.User", "User")
+                        .WithMany("Reminders")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ReminderApp.Models.User", null)
-                        .WithMany("CardOrders")
-                        .HasForeignKey("UserU_Id");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ReminderApp.Models.User", b =>
                 {
-                    b.Navigation("CardOrders");
+                    b.Navigation("Reminders");
                 });
 #pragma warning restore 612, 618
         }
