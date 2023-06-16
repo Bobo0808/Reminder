@@ -12,8 +12,8 @@ using ReminderApp.Data;
 namespace ReminderApp.Migrations
 {
     [DbContext(typeof(ReminderDbContext))]
-    [Migration("20230614133442_initial")]
-    partial class initial
+    [Migration("20230614153703_m1")]
+    partial class m1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

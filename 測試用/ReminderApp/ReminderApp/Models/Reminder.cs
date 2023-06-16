@@ -23,5 +23,7 @@ namespace ReminderApp.Models
         public bool Finish { get; set; }
 
         public  User User { get; set; }
+
+       
     }
 }
