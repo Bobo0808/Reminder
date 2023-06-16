@@ -14,7 +14,7 @@ namespace TodoAPI.Models
         public DateTime CreateDate { get; set; }
         public DateTime? ModifyDate { get; set; }
         public DateTime? ScaheduledDate { get; set; }
-        public bool? IsCompleted { get; set; }
+        public bool? IsCompleted { get; set; } 
 
         public virtual Webuser User { get; set; }
     }
