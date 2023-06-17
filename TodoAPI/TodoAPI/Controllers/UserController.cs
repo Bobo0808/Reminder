@@ -17,9 +17,10 @@ namespace TodoAPI.Controllers
     {
         private readonly TodoContext _todoContext;
         private readonly IConfiguration _configuration;
-        public UserController(TodoContext todoContext)
+        public UserController(TodoContext todoContext,IConfiguration configuration)
         {
             _todoContext = todoContext;
+            _configuration = configuration;
         }
 
         
@@ -44,19 +45,20 @@ namespace TodoAPI.Controllers
                     return BadRequest("使用者名稱或密碼錯誤");
                 }
 
-                //List<Claim> autClaims = new List<Claim>
-                //{
-                //    new Claim(ClaimTypes.Name,dbUser.Username),
-                //    new Claim("UserId",dbUser.UserId.ToString())
-                //};
-                //var token = this.getToken(autClaims);
+                List<Claim> autClaims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name,dbUser.Username),
+                    new Claim("UserId",dbUser.UserId.ToString()),
+                    new Claim("Username",dbUser.Username)
+                };
+                var token = this.getToken(autClaims);
 
-                //return Ok(new
-                //{
-                //    token = new JwtSecurityTokenHandler().WriteToken(token),
-                //    expiration = token.ValidTo
-                //});
-                return Ok();
+                return Ok(new
+                {
+                    token = new JwtSecurityTokenHandler().WriteToken(token),
+                    expiration = token.ValidTo
+                });
+                //return Ok();
 
             }
             catch (Exception ex)
@@ -99,19 +101,19 @@ namespace TodoAPI.Controllers
          
         }
 
-        //private JwtSecurityToken getToken(List<Claim> authClaim)
-        //{
-        //    var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+        private JwtSecurityToken getToken(List<Claim> authClaim)
+        {
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 
-        //    var token = new JwtSecurityToken(
-        //        issuer: _configuration["JWT:ValidIssuer"],
-        //        audience: _configuration["JWT:ValidAudience"],
-        //        expires: DateTime.Now.AddHours(24),
-        //        claims: authClaim,
-        //        signingCredentials:new SigningCredentials(authSigningKey,SecurityAlgorithms.HmacSha256)
-        //        );
-        //        return token;
-        //}
+            var token = new JwtSecurityToken(
+                issuer: _configuration["JWT:ValidIssuer"],
+                audience: _configuration["JWT:ValidAudience"],
+                expires: DateTime.Now.AddHours(24),
+                claims: authClaim,
+                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+                );
+            return token;
+        }
 
 
     }
