@@ -10,7 +10,7 @@ using TodoAPI.Models;
 
 namespace TodoAPI.Controllers
 {
-    
+    [EnableCors("appCors")]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase

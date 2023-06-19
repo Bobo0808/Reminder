@@ -6,7 +6,7 @@ namespace TodoAPI.ViewModel
     {
         [Required]
         public int TodoId { get; set; }
-        public int UserId { get; set; }
+        //public int UserId { get; set; }
         [Required(ErrorMessage = "請輸入你的主題")]
         public string Category { get; set; } = null!;
         [Required]

@@ -32,7 +32,18 @@ builder.Services.AddAuthentication(options =>
      };
  });
 
+//Enable Cors 定義CORS Policy
+var myCors = "appCors";
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(myCors, policy =>
+    {
+        policy.WithOrigins("https://localhost:4200")
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
 
 
 // Add services to the container.
@@ -53,6 +64,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// 套用CORS策略(這邊是影響所有的controllers)
+// app.UseCors(MyAllowSpecificOrigins);
+// 套用但須各個controllers去指定策略
+app.UseCors();
 
 app.UseHttpsRedirection();
 
