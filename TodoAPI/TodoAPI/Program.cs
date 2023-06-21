@@ -39,13 +39,18 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy(myCors, policy =>
     {
-        policy.WithOrigins("https://localhost:4200")
-        .AllowAnyHeader()
-        .AllowAnyMethod();
+        policy.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod();
     });
 });
-
-
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("appCors", policy =>
+//    {
+//        policy.WithOrigins("https://localhost:5175")
+//            .AllowAnyHeader()
+//            .AllowAnyMethod();
+//    });
+//});
 // Add services to the container.
 //使用資料庫
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
