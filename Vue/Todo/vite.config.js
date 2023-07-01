@@ -6,6 +6,8 @@ import AutoImport from 'unplugin-auto-import/vite';
 
 import Pages from 'vite-plugin-pages'
 import Layouts from 'vite-plugin-vue-layouts';
+import Components from "unplugin-vue-components/vite";
+
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,6 +16,12 @@ export default defineConfig({
     AutoImport({
       imports: ["vue", "vue-router"],
       dts: "src/auto-imports.js",
+    }),
+    Components({
+      // 從 `./src/components/` 路徑查找
+      extensions: ["vue"],
+      include: [/\.vue$/, /\.vue\?vue/],
+      dts: "src/auto-components.js",
     }),
     Pages(),
     Layouts(),

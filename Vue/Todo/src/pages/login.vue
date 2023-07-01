@@ -3,6 +3,18 @@ import { ref } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 const router = useRouter();
+const API_URL = "https://localhost:7068";
+
+const tokenKey = 'jwt';
+const getToken = () =>{
+  return localStorage.getItem(tokenKey);
+}
+const saveToken = (token) => {
+  localStorage.setItem(tokenKey, token);
+};
+const removeToken = () => {
+  localStorage.removeItem(tokenKey);
+};
 
 const login = ref({
   userName: "bobo1",
@@ -56,22 +68,32 @@ const register = ref({
 //       console.log(error);
 //     });
 // };
+
+const token = ref(null); //儲存Token用
+
 const CheckAccount = async (event) => {
   event.preventDefault();
   try {
-    const response = await axios.post("https://localhost:7068/api/User/login", login.value);
-    console.log(response.data);
+    const response = await axios.post(`${API_URL}/api/User/login`, login.value);
+    token.value = response.data.token; // 儲存Bearer Token
+    console.log('Token stored:', token.value);
+    saveToken(token);
     router.push("/");
   } catch (error) {
     console.log(error);
   }
 };
 
+
+
+
+
+
 const hadlesubmit = (event) => {
   event.preventDefault();
 
   axios
-    .post("https://localhost:7068/api/User/register", register.value)
+    .post(`${API_URL}/api/User/register`, register.value)
     .then((response) => {
       console.log(response.data);
     })
@@ -85,13 +107,10 @@ const view = ref(1);
 const changeView = (index) => {
   view.value = index;
 };
-</script>
-<script>
-export default {
-  name: "App",
-};
+
 </script>
 <template>
+  
   <div class="ALL">
     <div class="overlay" v-if="view === 3">
       <div class="modal">
@@ -113,20 +132,18 @@ export default {
     </header>
     <div class="wrapper">
       <span class="icon-close">
-        <ion-icon name="close"></ion-icon>
+        <font-awesome-icon icon="fa-solid fa-xmark" />
       </span>
       <div class="form-box login" v-if="view === 1">
         <h2>Login</h2>
         <form action="#">
           <div class="input-box">
-            <span class="icon"
-              ><ion-icon name="people-circle-outline"></ion-icon
-            ></span>
+            <span class="icon"><font-awesome-icon icon="fa-solid fa-user" /></span>
             <input type="text" v-model="login.userName" required />
             <label for=""> UserName</label>
           </div>
           <div class="input-box">
-            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+            <span class="icon"><font-awesome-icon icon="fa-solid fa-lock" /></span>
             <input type="password" v-model="login.pwd" required />
             <label for=""> Password</label>
           </div>
@@ -152,19 +169,17 @@ export default {
         <h2>Registerion</h2>
         <form action="#">
           <div class="input-box">
-            <span class="icon"><ion-icon name="mail"></ion-icon></span>
+            <span class="icon"><font-awesome-icon icon="fa-solid fa-envelope" /></span>
             <input type="text" v-model="register.email" required />
             <label for=""> Email</label>
           </div>
           <div class="input-box">
-            <span class="icon"
-              ><ion-icon name="people-circle-outline"></ion-icon
-            ></span>
+            <span class="icon"><font-awesome-icon icon="fa-solid fa-user" /></span>
             <input type="text" v-model="register.username" required />
             <label for=""> UserName</label>
           </div>
           <div class="input-box">
-            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+            <span class="icon"><font-awesome-icon icon="fa-solid fa-lock" /></span>
             <input type="password" v-model="register.Pwd" required />
             <label for=""> Password</label>
           </div>
