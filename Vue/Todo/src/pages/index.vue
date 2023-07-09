@@ -1,18 +1,13 @@
 <script setup>
-import { inject,ref } from "vue";
+import { ref } from "vue";
 import axios from "axios";
+// import { useToken } from './useToken';
+
 
 const API_URL = "https://localhost:7068";
 const showModel = ref(false);
 
-const token = localStorage.getItem('jwtToken');
-const router = useRouter();
-const state = reactive({
-  token, 
-});
-
-
-
+const token = localStorage.getItem('token');
 
 const logout = () => {
   // 清除本地的 Token
@@ -39,6 +34,7 @@ const Add = ref({
 //   isComplete:false
 // });
 
+
 const AddTask = (event) => {
   event.preventDefault();
 
@@ -59,10 +55,17 @@ const AddTask = (event) => {
 };
 
 
+
+
 // const AddTask = (event) => {
 //   event.preventDefault();
+
+//   const headers = {
+//     Authorization: `Bearer ${token}`,
+//   };
+
 //   axios
-//     .post(`${API_URL}/api/Todo/Create`, Add.value)
+//     .post(`${API_URL}/api/Todo/Create`, Add.value,{headers})
 //     .then((response) => {
 //       console.log(response.data);
 //     })
@@ -95,10 +98,6 @@ const AddTask = (event) => {
 //     });
 // };
 
-
-
-
-
 </script>
 
 
@@ -123,9 +122,9 @@ const AddTask = (event) => {
 <div v-show="showModel" class="overlay">
     <div class="modal">
       <h3>主題</h3>
-      <input type="text" class="enter-list" placeholder="在此輸入主題" v-model="Add.category">
+      <input type="text" class="enter-list" placeholder="在此輸入主題" v-model="category">
       <h4>內容</h4>
-      <textarea name="note" id="note" cols="30" rows="10" v-model="Add.remark"></textarea>
+      <textarea name="note" id="note" cols="30" rows="10" v-model="remark"></textarea>
       <div class="iscomplete">
             <input type="radio" name="iscomplete" id="dot-1" :value=true v-model="Add.isComplete"/>
             <input type="radio" name="iscomplete" id="dot-2" :value=false v-model="Add.isComplete"/>

@@ -2,20 +2,17 @@
 import { ref } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
-import setAuthHeader from '../setAuthHeader'
 const router = useRouter();
 const API_URL = "https://localhost:7068";
 
 // const tokenKey = 'jwt';
-// const getToken = () =>{
-//   return localStorage.getItem(tokenKey);
-// }
-// const saveToken = (token) => {
-//   localStorage.setItem(tokenKey, token.value);
-// };
-// const removeToken = () => {
-//   localStorage.removeItem(tokenKey);
-// };
+const getToken = () =>{
+  return localStorage.getItem(tokenKey);
+}
+const saveToken = (token) => {
+  localStorage.setItem('token', token);
+};
+
 
 const login = ref({
   userName: "bobo1",
@@ -76,18 +73,15 @@ const CheckAccount = async (event) => {
   event.preventDefault();
   try {
     const response = await axios.post(`${API_URL}/api/User/login`, login.value);
-    console.log(response.data)
     // token.value = response.data.token; // 儲存Bearer Token
-    // console.log('Token stored:', token.value);
-    // saveToken(token);
-    localStorage.setItem('jwtToken',response.data.token)
-    setAuthHeader(response.data.token);
-    router.push("/");
+    console.log('Token stored:', token.value);
+    console.log('Token:', localStorage.getItem('token'));
+    saveToken(token);
+    // router.push('/');
   } catch (error) {
     console.log(error);
   }
 };
-
 
 
 
