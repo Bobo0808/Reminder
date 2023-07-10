@@ -9,14 +9,21 @@ const showModel = ref(false);
 
 const token = localStorage.getItem('token');
 
+const router = useRouter();
+const state = reactive({
+  token, 
+});
+
+
+
+
 const logout = () => {
   // 清除本地的 Token
-  localStorage.removeItem('token');
+  localStorage.removeItem('jwtToken');
   state.token = null; 
   console.log('Token:', state.token);
   router.push('/login');
 };
-
 
 
 const Add = ref({
@@ -122,9 +129,9 @@ const AddTask = (event) => {
 <div v-show="showModel" class="overlay">
     <div class="modal">
       <h3>主題</h3>
-      <input type="text" class="enter-list" placeholder="在此輸入主題" v-model="category">
+      <input type="text" class="enter-list" placeholder="在此輸入主題" v-model="Add.category">
       <h4>內容</h4>
-      <textarea name="note" id="note" cols="30" rows="10" v-model="remark"></textarea>
+      <textarea name="note" id="note" cols="30" rows="10" v-model="Add.remark"></textarea>
       <div class="iscomplete">
             <input type="radio" name="iscomplete" id="dot-1" :value=true v-model="Add.isComplete"/>
             <input type="radio" name="iscomplete" id="dot-2" :value=false v-model="Add.isComplete"/>
@@ -147,7 +154,7 @@ const AddTask = (event) => {
   
 <div class="todo-list">
   <div class="list-head">
-    <input type="text" class="enter-list" placeholder="在此輸入主題" v-model="category">
+    <input type="text" class="enter-list" placeholder="在此輸入主題" v-model="Add.category">
     <button class="add-list" @click="showModel=true">新增</button>
     <button class="add-list-2">檢視已完成</button>
     
@@ -156,8 +163,8 @@ const AddTask = (event) => {
     <div class="item">
       <p>new item here</p>
       <div class="item-btn">
-        <font-awesome-icon icon="fa-solid fa-pen-to-square" @click="handleEdit"/>
-        <font-awesome-icon icon="fa-solid fa-xmark" @click="handleDelete"/>
+        <font-awesome-icon icon="fa-solid fa-pen-to-square"/>
+        <font-awesome-icon icon="fa-solid fa-xmark" />
       </div>
     </div>
   </div>

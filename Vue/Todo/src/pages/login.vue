@@ -5,13 +5,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const API_URL = "https://localhost:7068";
 
-// const tokenKey = 'jwt';
-const getToken = () =>{
-  return localStorage.getItem(tokenKey);
-}
-const saveToken = (token) => {
-  localStorage.setItem('token', token);
-};
+
 
 
 const login = ref({
@@ -73,11 +67,8 @@ const CheckAccount = async (event) => {
   event.preventDefault();
   try {
     const response = await axios.post(`${API_URL}/api/User/login`, login.value);
-    // token.value = response.data.token; // 儲存Bearer Token
-    console.log('Token stored:', token.value);
-    console.log('Token:', localStorage.getItem('token'));
-    saveToken(token);
-    // router.push('/');
+    localStorage.setItem("jwtToken",response.data.token);
+    router.push('/');
   } catch (error) {
     console.log(error);
   }
