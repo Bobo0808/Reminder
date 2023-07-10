@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import axios from "axios";
 // import { useToken } from './useToken';
 
@@ -7,7 +7,7 @@ import axios from "axios";
 const API_URL = "https://localhost:7068";
 const showModel = ref(false);
 
-const token = localStorage.getItem('token');
+const token = localStorage.getItem('jwtToken');
 
 const router = useRouter();
 const state = reactive({
@@ -54,7 +54,10 @@ const AddTask = (event) => {
   axios
     .post(`${API_URL}/api/Todo/Create`, Add.value, { headers })
     .then((response) => {
+      
       console.log(response.data);
+      ShowTodoByUser.value.push(response.data);
+      window.location.reload();
     })
     .catch((error) => {
       console.log(error);
@@ -62,49 +65,25 @@ const AddTask = (event) => {
 };
 
 
+const ShowTodoByUser = ref({})
+onMounted(()=>{
+  const token = localStorage.getItem('jwtToken');
 
+const headers = {
+  Authorization: `Bearer ${token}`,
+};
+axios
+  .get(`${API_URL}/api/Todo/getAllUserTodolist`,{headers})
+  .then((response) => {
+    ShowTodoByUser.value = response.data;
+    console.log(response.data);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+});
 
-// const AddTask = (event) => {
-//   event.preventDefault();
-
-//   const headers = {
-//     Authorization: `Bearer ${token}`,
-//   };
-
-//   axios
-//     .post(`${API_URL}/api/Todo/Create`, Add.value,{headers})
-//     .then((response) => {
-//       console.log(response.data);
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-// };
-
-// const handleEdit = (event) => {
-//   event.preventDefault();
-//   axios
-//     .post(`${API_URL}/api/Todo/Create`, Add.value)
-//     .then((response) => {
-//       console.log(response.data);
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-// };
-
-// const handleDelete = (event) => {
-//   event.preventDefault();
-//   axios
-//     .post(`${API_URL}/api/Todo/Create`, Add.value)
-//     .then((response) => {
-//       console.log(response.data);
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-// };
-
+  
 </script>
 
 
@@ -160,8 +139,8 @@ const AddTask = (event) => {
     
   </div>
   <div class="tasks">
-    <div class="item">
-      <p>new item here</p>
+    <div class="item" v-for="item in ShowTodoByUser" :key="item.todoId">
+      <p>{{ item.category }}</p>
       <div class="item-btn">
         <font-awesome-icon icon="fa-solid fa-pen-to-square"/>
         <font-awesome-icon icon="fa-solid fa-xmark" />
