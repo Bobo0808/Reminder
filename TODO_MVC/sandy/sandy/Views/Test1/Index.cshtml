@@ -1,0 +1,38 @@
+﻿@* 
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+ *@
+@model List<sandy.ViewModels.TEST1> // 指定视图模型类型为 List<TEST1>
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>TEST1 Data</title>
+    </head>
+    <body>
+        <h1>TEST1 Data</h1>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Todo ID</th>
+                    <th>Username</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model) // 遍历视图模型列表
+            {
+                    <tr>
+                        <td>@item.UserID</td> // 显示用户 ID
+                        <td>@item.TodoID</td> // 显示 Todo ID
+                        <td>@item.Username</td> // 显示用户名
+                    </tr>
+            }
+            </tbody>
+        </table>
+    </body>
+</html>
